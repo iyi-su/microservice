@@ -6,7 +6,9 @@
     "target": "es2020",
     "module": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "declaration": true
-  }
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
