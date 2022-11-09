@@ -1,9 +1,7 @@
-name: Publish
-
 on:
-  release:
-    types: [created]
-
+  push:
+    tags:
+      - 'v*.*.*'
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -18,15 +16,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - run: |
-          git config --global user.name 'actions-release'
-          git config --global user.email 'skamenetskiy@users.noreply.github.com'
-      - run: yarn version --patch
+      - run: yarn version --no-git-tag-version --no-commit-hooks ${{ github.ref_name}}
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: git push --tags
-      - run: |
-          git add .
-          git commit -am 'version bump'
-          git push -u origin main

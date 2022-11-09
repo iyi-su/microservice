@@ -1,6 +1,6 @@
 {
   "name": "@iyi-su/microservice",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "main": "service.js",
   "license": "MIT",
   "type": "module",
