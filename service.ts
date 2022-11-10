@@ -1,7 +1,7 @@
 import {readFileSync} from "node:fs";
 import {join} from "node:path";
-import {ApolloServer, ApolloServerPlugin} from "@apollo/server";
-import {startStandaloneServer} from "@apollo/server/standalone";
+import {ApolloServer, ApolloServerPlugin, BaseContext} from "@apollo/server";
+import {startStandaloneServer, StartStandaloneServerOptions} from "@apollo/server/standalone";
 import {createLogger, Logger, format, transports} from "winston";
 import {__dirname} from "./paths.js";
 
@@ -14,23 +14,27 @@ export const logger: Logger = createLogger({
     ],
 });
 
-export async function start(
+export async function start<TContext extends BaseContext = {}>(
     resolvers,
     typeDefs: string = getDefaultTypeDefs(),
     plugins: ApolloServerPlugin[] = [],
 ): Promise<void> {
-    const server = new ApolloServer<{}>({
+    const server = new ApolloServer<TContext>({
         resolvers,
         typeDefs,
         plugins: [
             loggerPlugin, ...plugins,
         ],
     });
-    const {url} = await startStandaloneServer(server, {
+    const options = {
+        context: async (): Promise<TContext> => {
+            return undefined;
+        },
         listen: {
             port: parseInt(process.env.PORT || "4000"),
         },
-    });
+    };
+    const {url} = await startStandaloneServer(server, options);
     logger.info(`listening on ${url}`);
 }
 
