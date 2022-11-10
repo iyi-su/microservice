@@ -25,10 +25,7 @@
   },
   "files": [
     "main.js",
-    "main.ts",
     "service.js",
-    "service.ts",
-    "paths.js",
-    "paths.ts"
+    "paths.js"
   ]
 }
