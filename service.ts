@@ -1,14 +1,22 @@
 import {readFileSync} from "node:fs";
 import {join} from "node:path";
 import {ApolloServer, ApolloServerPlugin, BaseContext} from "@apollo/server";
-import {startStandaloneServer, StartStandaloneServerOptions} from "@apollo/server/standalone";
+import {startStandaloneServer} from "@apollo/server/standalone";
 import {createLogger, Logger, format, transports} from "winston";
 import {__dirname} from "./paths.js";
+
+export const {
+    npm_package_name: AppName = "microservice",
+    npm_package_version: AppVersion = "0.0.0",
+} = process.env;
 
 export const logger: Logger = createLogger({
     level: process.env.LOG_LEVEL || "error",
     format: format.json(),
-    defaultMeta: {service: process.env.SERVICE_NAME || "microservice"},
+    defaultMeta: {
+        service: AppName || "microservice",
+        version: AppVersion || "0.0.0",
+    },
     transports: [
         new transports.Console(),
     ],
