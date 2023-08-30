@@ -11,7 +11,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@apollo/server": "^4.1.1",
+    "@apollo/server": "^4.9.3",
     "graphql": "^16.6.0",
     "winston": "^3.8.2"
   },
